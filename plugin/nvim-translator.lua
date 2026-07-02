@@ -1,16 +1,16 @@
--- duplication check
+-- 重複起動チェック
 if vim.g.loaded_nvim_translator then
     return
 end
 vim.g.loaded_nvim_translator = true
 
--- nvim check
+-- nvim チェック
 if vim.fn.has('nvim') ~= 1 then
     vim.notify("this plugin only support nvim.", vim.log.levels.ERROR)
     return
 end
 
--- nvim version check (support >= nvim 0.10.0)
+-- nvim のバージョン確認（nvim 0.10.0 以降に対応）
 ---@type (vim.Version)?
 local nvim_local_v = vim.version.parse(vim.fn.system({ 'nvim', '-v' }), { strict = false })
 local nvim_support_v = { 0, 9, 0 }
