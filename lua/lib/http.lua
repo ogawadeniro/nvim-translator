@@ -17,8 +17,8 @@ function M.url_encode(str)
     if str == nil then return "" end
 
     str = string.gsub(str, "\n", "\r\n")
-    -- text = string.gsub(text, "([^%w ])", char_to_hex)
-    str = string.gsub(str, "([^%w %-%_%.%~])", char_to_hex)
+    text = string.gsub(text, "([^%w ])", char_to_hex)
+    -- str = string.gsub(str, "([^%w %-%_%.%~])", char_to_hex)
     str = string.gsub(str, " ", "+")
     return str
 end
