@@ -47,7 +47,6 @@ function M.new()
             rhs = "gj",
             opts = {
                 noremap = true,
-                --                     callback = false,
             },
         },
         {
@@ -57,7 +56,19 @@ function M.new()
             rhs = "gk",
             opts = {
                 noremap = true,
-                --                     callback = false,
+            },
+        },
+        {
+            is_buf = true,
+            mode = "n",
+            lhs = "<C-a>",
+            rhs = "",
+            opts = {
+                noremap = true,
+                callback = function()
+                    vim.cmd("noautocmd normal! ggyG")
+                    vim.notify("翻訳結果をコピーしたよ", vim.log.levels.INFO, { title = "nvim-translator" })
+                end
             },
         },
     }
