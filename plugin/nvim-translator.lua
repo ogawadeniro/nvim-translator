@@ -22,6 +22,3 @@ if (nvim_local_v ~= nil) and (vim.version.lt(nvim_local_v, nvim_support_v)) then
         vim.log.levels.WARN
     )
 end
-
--- on dev env
--- vim.cmd("set runtimepath+=~/work/01_dev/nvim_plugin/nvim-translator")
