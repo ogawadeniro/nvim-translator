@@ -4,6 +4,8 @@ local M = {}
 
 ---@type FloatWindow
 local float_window = FloatWindow.new()
+local uv = vim.loop
+local spinner = uv.new_timer()
 
 ---@type fun():nil
 function M.new()
@@ -96,9 +98,11 @@ function M.new()
     }
 
     float_window.init(config)
+    M.overwrite_lines({ "" })
 end
 
----@type fun(lines: string[]):nil
+---@param lines string[]
+---@return nil
 function M.overwrite_lines(lines)
     float_window.write_lines(0, -1, lines)
 end
@@ -111,23 +115,23 @@ end
 
 ---@param spin_chars string[]
 ---@param spin_interval integer * 100msec
----@return uv_timer_t
 function M.draw_spinner(spin_chars, spin_interval)
+    spinner = uv.new_timer()
     local spin_cnt = 0
-    local spinner
-    local spinner_start = function(_spin_interval)
-        local uv = vim.loop
-        spinner = uv.new_timer()
-        local cb = vim.schedule_wrap(function()
-            if (#vim.fn.win_findbuf(float_window.bufnr) < 1) and (spinner ~= nil) and (not uv.is_closing(spinner)) then
-                spinner:close()
-            end
-            M.overwrite_lines({ spin_chars[spin_cnt % #spin_chars + 1] })
-            spin_cnt = spin_cnt + 1
-        end)
-        uv.timer_start(spinner, 0, _spin_interval * 100, cb)
-    end
-    spinner_start(spin_interval)
+
+    local cb = vim.schedule_wrap(function()
+        if (#vim.fn.win_findbuf(float_window.bufnr) < 1) and (spinner ~= nil) and (not uv.is_closing(spinner)) then
+            spinner:close()
+        end
+        M.overwrite_lines({ spin_chars[spin_cnt % #spin_chars + 1] })
+        spin_cnt = spin_cnt + 1
+    end)
+    ---@cast spinner uv.uv_timer_t
+    uv.timer_start(spinner, 0, spin_interval * 100, cb)
+end
+
+---@return uv.uv_timer_t?
+function M.get_spinner()
     return spinner
 end
 
