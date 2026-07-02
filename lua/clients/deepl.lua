@@ -1,4 +1,4 @@
-local http_helper = require("lib/http")
+-- local http_helper = require("lib/http")
 local async = require("lib/async")
 
 local M = {}
@@ -7,11 +7,12 @@ local M = {}
 ---@param text string
 ---@return string[] @formatted text
 local function format_translated_texts(text)
-    --フォーマット共通処理
     --連続した空白文字をスペース一つに置き換える。
-    text = string.gsub(text, '%s+', ' ')
+    -- text = string.gsub(text, '[ 	]+', ' ')
+
     --URLをデコードする
-    text = http_helper.url_decode(text)
+    -- text = http_helper.url_decode(text)
+
     --改行区切りで配列に挿入
     local lines = {}
     for line in string.gmatch(text, "[^\r\n]+") do
@@ -87,10 +88,10 @@ local create_req_data = function(trans_req)
     end
 
     -- 改行をスペースに置き換え
-    trans_req.txt = trans_req.txt:gsub("\r?\n", " ")
+    -- trans_req.txt = trans_req.txt:gsub("\r?\n", " ")
 
     -- 翻訳テキストをURLエンコードする
-    trans_req.txt = http_helper.url_encode(trans_req.txt)
+    -- trans_req.txt = http_helper.url_encode(trans_req.txt)
 
     trans_req.dst = string.upper(trans_req.dst)
 
