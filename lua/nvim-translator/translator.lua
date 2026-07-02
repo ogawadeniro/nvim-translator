@@ -48,7 +48,19 @@ M.translate = function(trans_req, nt_config)
     vim.cmd('noautocmd normal! gg0')
 
     -- ロードスピナーを表示する
-    ui.draw_spinner({ "◐ now translating.", "☻ now translating..", "◑ now translating...", "◎ now translating" }, 1.5)
+    ui.draw_spinner({
+            -- "  now translating ",
+            -- "  now translating ",
+            -- "  now translating ",
+            -- "  now translating ",
+            -- "  now translating ",
+            -- "  now translating ",
+            " now translating ▂▄▅",
+            " now translating ▆▅▃",
+            " now translating ▃▇▅",
+        },
+        1.0
+    )
 
     -- apiを叩く
     api_client.hit(nt_config.client.opt, trans_req, ui)
