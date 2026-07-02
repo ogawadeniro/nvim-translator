@@ -7,8 +7,8 @@ local float_window = FloatWindow.new()
 local uv = vim.loop
 local spinner = uv.new_timer()
 
----@type fun():nil
-function M.new()
+---@type fun(title: string):nil
+function M.new(title)
     -- floatwindow configuration
     local config_win = {
         focusable = true,
@@ -25,7 +25,7 @@ function M.new()
         style     = 'minimal',
         relative  = "cursor",
         anchor    = "NW",
-        title     = " nvim-translator ",
+        title     = title,
     }
     local config_keymaps = {
         {
